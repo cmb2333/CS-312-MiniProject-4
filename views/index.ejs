@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Home</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="header">
+  <h1>CS312 Mini-Project: Music Blog</h1>
+  <p>Explore the latest posts in Rock Music</p>
+</div>
+
+<div class="topnav">
+  <a href="/">Home</a>
+  <a href="/posts/new">Create Post</a>
+  <% if (user) { %>
+    <a>Welcome, <%= user.name %>!</a>
+    <a href="/signout" style="float: right;">Sign Out</a>
+  <% } else { %>
+    <a href="/signup" style="float: right;">Sign Up</a>
+    <a href="/signin" style="float: right;">Sign In</a>
+  <% } %>
+</div>
+
+<% if (message) { %>
+  <script>
+    alert("<%= message %>");
+  </script>
+<% } %>
+
+<div class="row">
+  <div class="leftcolumn">
+    <% posts.forEach(post => { %>
+      <div class="card">
+        <h2><%= post.title %></h2>
+        <p>Posted by <%= post.creator_name %> on <%= post.date_created.toDateString() %></p>
+        <p><%= post.body %></p>
+        <a href="/posts/edit/<%= post.blog_id %>">Edit</a>
+        <form action="/posts/delete/<%= post.blog_id %>" method="POST" style="display: inline;">
+          <button type="submit">Delete</button>
+        </form>
+      </div>
+    <% }) %>
+  </div>
+
+  <div class="rightcolumn">
+    <div class="card">
+      <h2 class="section-title">Album of the Year</h2>
+      <img src="/images/TMBTE.jpg" alt="Album of the Year" class="album-cover">
+    </div>
+    <div class="card">
+      <h2 class="section-title">Top Songs</h2>
+      <img src="/images/summoning.jpg" alt="summoning" class="song-cover">
+      <img src="/images/DOPOM.jpg" alt="DOPOM" class="song-cover">
+      <img src="/images/koolAid.jpg" alt="koolAid" class="song-cover">
+      <img src="/images/popularMonster.jpg" alt="popularMonster" class="song-cover">
+      <img src="/images/lost.jpg" alt="lost" class="song-cover">
+    </div>
+    <div class="card">
+      <h2 class="section-title">Follow Me</h2>
+      <div class="follow-links">
+        <a href="https://github.com/cmb2333">GitHub</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <h2>Sources</h2>
+  <p>This project hurt my brain</p>
+  <p>https://www.youtube.com/watch?v=ILviQic0c8g</p>
+  <p>https://www.youtube.com/watch?v=S6VE2lsAGo0</p>
+  <p>https://www.youtube.com/watch?v=c6zI1gCaO-c</p>
+</div>
+
+</body>
+</html>
+
+
+
+
+
