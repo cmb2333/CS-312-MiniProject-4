@@ -1,62 +1,56 @@
 const express = require('express');
 const router = express.Router();
 
-// Thanks Express.js - https://expressjs.com/en/guide/routing.html
+// In-memory store for posts (since there's no database)
+let posts = [];
 
-// Store posts
-let posts = []; 
-
-// Route to display form
-router.get('/posts/new', (req, res) => {
-  res.render('posts/new');
+// Get all posts
+router.get('/posts', (req, res) => {
+  res.json(posts);
 });
 
-// Route to handle form submission
+// Create a new post
 router.post('/posts', (req, res) => {
-  const post = {
+  const newPost = {
     id: posts.length + 1,
     name: req.body.name,
     title: req.body.title,
     content: req.body.content,
-    postedOn: new Date()
+    postedOn: new Date(),
   };
-  posts.push(post);
-  res.redirect('/');
+  posts.push(newPost);
+  res.status(201).json(newPost); // Return the created post with a 201 status code
 });
 
-// Route to handle displaying posts on home page
-router.get('/', (req, res) => {
-  res.render('index', { posts: posts });
-});
-
-// Route to edit post by ID
-router.get('/posts/edit/:id', (req, res) => {
+// Get a specific post by ID
+router.get('/posts/:id', (req, res) => {
   const post = posts.find(post => post.id === parseInt(req.params.id));
   if (!post) {
-    return res.status(404).send('Post with the given ID was not found');
+    return res.status(404).json({ error: 'Post not found' });
   }
-  res.render('posts/edit', { post });
+  res.json(post);
 });
 
-// Handle edit POST request
-router.post('/posts/edit/:id', (req, res) => {
+// Update a post by ID
+router.put('/posts/:id', (req, res) => {
   const post = posts.find(post => post.id === parseInt(req.params.id));
   if (!post) {
-    return res.status(404).send('Post with the given ID was not found');
+    return res.status(404).json({ error: 'Post not found' });
   }
   post.name = req.body.name;
   post.title = req.body.title;
   post.content = req.body.content;
-  res.redirect('/');
+  res.json(post); // Return the updated post
 });
 
-// Route to hanlde the deletion of posts
-router.post('/posts/delete/:id', (req, res) => {
+// Delete a post by ID
+router.delete('/posts/:id', (req, res) => {
   const postIndex = posts.findIndex(post => post.id === parseInt(req.params.id));
-  if (postIndex > -1) {
-    posts.splice(postIndex, 1);
+  if (postIndex === -1) {
+    return res.status(404).json({ error: 'Post not found' });
   }
-  res.redirect('/');
+  posts.splice(postIndex, 1);
+  res.status(204).send(); // Send a 204 status with no content
 });
 
 module.exports = router;

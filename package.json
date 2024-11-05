@@ -1,0 +1,28 @@
+{
+  "name": "cs-312-miniproject-4",
+  "version": "1.0.0",
+  "description": "The fourth project in NAU's CS312 course.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "client": "cd client && npm start",
+    "dev": "concurrently \"npm run start\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cmb2333/CS-312-MiniProject-4.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cmb2333/CS-312-MiniProject-4/issues"
+  },
+  "homepage": "https://github.com/cmb2333/CS-312-MiniProject-4#readme",
+  "dependencies": {
+    "react-router-dom": "^6.27.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  }
+}
